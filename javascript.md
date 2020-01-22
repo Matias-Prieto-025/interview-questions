@@ -448,18 +448,172 @@ Esto es lo que se llama evaluación perezosa y es un concepto importante en leng
 
 ## Destructuring
 
+Expresión de JavaScript que hace posible la extracción de datos de arreglos u objetos usando una sintaxis que equivale a la construcción de arreglos y objetos literales.
+
+```javascript
+let a, b, rest;
+[a, b] = [10, 20];
+console.log(a); // 10
+console.log(b); // 20
+
+[a, b, ...rest] = [10, 20, 30, 40, 50];
+console.log(a); // 10
+console.log(b); // 20
+console.log(rest); // [30, 40, 50]
+
+({ a, b } = { a: 10, b: 20 });
+console.log(a); // 10
+console.log(b); // 20
+
+
+// Propuesta de etapa 4 (terminada)
+({a, b, ...rest} = {a: 10, b: 20, c: 30, d: 40});
+console.log(a); // 10
+console.log(b); // 20
+console.log(rest); // {c: 30, d: 40}
+```
+
+Asignación básica de variables
+
+```javascript
+const foo = ['uno', 'dos', 'tres'];
+
+const [rojo, amarillo, verde] = foo;
+console.log(rojo); // "uno"
+console.log(amarillo); // "dos"
+console.log(verde); // "tres"
+```
+
+Asignación separada de la declaración
+A una variable se le puede asignar su valor mediante la desestructuración separada de la declaración de la variable.
+
+```javascript
+let a, b;
+
+[a, b] = [1, 2];
+console.log(a); // 1
+console.log(b); // 2
+```
+
+## Spread operator
+
+Permite a un elemento iterable tal como un arreglo o cadena ser expandido en lugares donde cero o más argumentos (para llamadas de  función) ó elementos (para Array literales) son esperados, o a un objeto ser expandido en lugares donde cero o más pares de valores clave (para literales Tipo Objeto) son esperados.
+
+* __Usar los elementos de un arreglo como argumentos de una función__
+
+```javascript
+function myFunction(x, y, z) { }
+var args = [0, 1, 2];
+myFunction(...args);
+```
+
+* __Expandir Array literales__
+
+```javascript
+var parts = ['shoulders', 'knees']; 
+var lyrics = ['head', ...parts, 'and', 'toes']; 
+// ["head", "shoulders", "knees", "and", "toes"]
+```
+
+* __Copiar un arreglo__
+
+```javascript
+var arr = [1, 2, 3];
+var arr2 = [...arr]; // like arr.slice()
+arr2.push(4); 
+
+// arr2 becomes [1, 2, 3, 4]
+// arr remains unaffected
+```
+
+* __Concatenar__
+
+Alternativa a concat()
+
+```javascript
+var arr1 = [0, 1, 2];
+var arr2 = [3, 4, 5];
+arr1 = [...arr1, ...arr2];
+```
+
+En objects, copia sus propiedades enumerables desde un objeto provisto dentro de un nuevo objeto.
+
+Shallow-cloning (excluyendo prototype) o la combinación de objetos es ahora posible usando una sintáxis más corta que Object.assign().
+
+```javascript
+var obj1 = { foo: 'bar', x: 42 };
+var obj2 = { foo: 'baz', y: 13 };
+
+var clonedObj = { ...obj1 };
+// Object { foo: "bar", x: 42 }
+
+var mergedObj = { ...obj1, ...obj2 };
+// Object { foo: "baz", x: 42, y: 13 }
+```
+
 ## Map vs Object
 
-## Diff function
+Map es un tipo de coleccion de datos en el cual los datos se almacenan en forma de par: una clave unica, y un valor asociado a esa key.
+Debido al que la key sea unica, no hay pares duplicados.
+
+```javascript
+var miMapa = new Map();
+
+var claveObj = {},
+    claveFunc = function () {},
+    claveCadena = "una cadena";
+
+// asignando valores
+miMapa.set(claveCadena, "valor asociado con 'una cadena'");
+miMapa.set(claveObj, "valor asociado con claveObj");
+miMapa.set(claveFunc, "valor asociado with claveFunc");
+
+miMapa.size; // 3
+
+// obteniendo los valores
+miMapa.get(claveCadena);    // "valor asociado con 'una cadena'"
+miMapa.get(claveObj);       // "valor asociado con claveObj"
+miMapa.get(claveFunc);      // "valor asociado con claveFunc"
+
+miMapa.get("una cadena");   // ""valor asociado con 'una cadena'" porque claveCadena === 'una cadena'
+```
+
+https://medium.com/front-end-weekly/es6-map-vs-object-what-and-when-b80621932373
 
 ## ES6 features
 
-## Como vaciar array
+* Const
+* Block scope variables (let)
+* Arrow functions
+* Simple and intuitive default values for function parameters.
+* Rest param
+* Spread operator
+* String Interpolation
+
+## Como vaciar array?
+
+```javascript
+var list = [1, 2, 3, 4];
+function empty() {
+    //empty your array
+    list.length = 0;
+}
+empty();
+```
+
+Si se hiciera list = [], se asignaria una nueva referencia en memoria a esa variable, pero todo el contenido anterior aun permaneceria en memoria.
+
+array.length = 0 limpia todo del arreglo, incluyendo otras referencias al arreglo - Ej: (a = [1,2,3]; a2 = a;) - 
 
 ## Prototype
 
 ## Tipos de datos primitivos
 
-## SOLID
+Un primitivo (valor primitivo, tipo de datos primitivo) es un dato que no es un objeto y no tiene métodos. En JavaScript hay 6 tipos de datos primitivos: string , number , boolean , null , undefined , symbol (nuevo en ECMAScript 2015).
 
-## DRY
+La mayoría del tiempo, un valor primitivo es representado directamente en el nivel más bajo de la interpretación del lenguaje.
+
+Todos los primitivos son inmutables (no pueden ser cambiados).
+
+## Deep copy y Shalow copy
+
